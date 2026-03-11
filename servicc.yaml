@@ -1,0 +1,49 @@
+apiVersion: v1
+kind:  Service
+metadata:
+   name:  mykandy-svc
+   labels:
+     env:  mykandy
+spec:
+   selector:
+     env:  mykandy
+   ports:
+     - name:  http
+       port:  80
+       protocol:  TCP
+       targetPort:  80
+     - name:  https
+       port:  443
+       protocol:  TCP
+       targetPort:  80
+
+
+---
+apiVersion: apps/v1
+kind:  Deployment
+metadata:
+  name:  mykandy-deploy
+  labels:
+     env:  mykandy
+spec:
+  replicas:  4
+  selector:  
+   matchLabels:
+     env:  mykandy
+  template:
+    metadata:  
+      labels:
+        env:  mykandy
+    spec: 
+       containers:
+         - name:  http
+           image:  nginx:latest
+           ports:  
+            - containerPort:  80
+              protocol:  TCP
+         - name:  https
+           image: nginx:latest
+           ports:
+            - containerPort:  80
+              protocol:  TCP     
+
