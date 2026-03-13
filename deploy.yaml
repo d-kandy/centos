@@ -1,0 +1,44 @@
+apiVersion:  apps/v1
+kind:  Deployment
+metadata:
+   name:  kandy-deploy
+
+spec:
+   selector:
+      matchLabels:
+        env:  mykandy
+   replicas:  4
+   template:
+     metadata:
+        labels:
+          env:  mykandy
+     spec:
+        containers:
+        - name:  nginx
+          image:  nginx:1.25
+          ports:
+            - containerPort:  80
+
+---
+apiVersion:  apps/v1
+kind:  Deployment
+metadata:
+   name:  love-deploy
+spec:
+   selector:
+     matchLabels:
+      env:  mylove
+   replicas: 2
+   template:
+     metadata:
+       labels:
+         env:  mylove
+     spec:
+        containers:
+          - name: nginx
+            image: nginx:1.15
+            ports:
+              - containerPort:  80
+                protocol:  TCP
+
+
